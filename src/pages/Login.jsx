@@ -1,44 +1,94 @@
-import React from "react"
-import { useNavigate } from "react-router-dom"
-import http from "../helpers/http"
+import { useFormik } from "formik";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import http from "../helpers/http";
 
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [msg, setMsg] = useState("");
+  const [error, setError] = useState(false);
 
-  const handleSubmit = async (event) => {
-    try {
-      event.preventDefault()
+  const loginValidation = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email Required"),
+    password: Yup.string()
+      .required("Password Required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Password must be including 1 symbol, 1 uppercase, and 1 number"
+      )
+      .min(8, "Password must be at least 8 characters or more"),
+  });
 
-      const form = {
-        email: event.target.email.value,
-        password: event.target.password.value
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginValidation,
+    onSubmit: async (values, action) => {
+      try {
+        const form = {
+          email: values.email,
+          password: values.password,
+        };
+
+        console.log(form);
+        const encoded = new URLSearchParams(form);
+        const { data } = await http().post("/auth/login", encoded.toString());
+        window.localStorage.setItem("token", data.results.token);
+        setError(false);
+        action.setSubmitting(true)
+        navigate("/");
+      } catch (err) {
+        setMsg(err.response.data.message);
+        setError(true);
       }
-
-      const encoded = new URLSearchParams(form)
-      const {data} = await http().post('/auth/login', encoded.toString())
-      window.localStorage.setItem("token", data.results.token)
-      navigate('/')
-    } catch (err) {
-      window.alert(err.response.data.message)
-    }
-  }
+    },
+  });
 
   return (
     <div>
       <h1 className="text-2xl font-semibold">Login</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col w-fit gap-4">
+      {error ? <div>{msg}</div> : null}
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex flex-col w-fit gap-4"
+      >
         <div className="flex flex-col">
-          <label className="text-lg font-medium" htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500" />
+          <label className="text-lg font-medium" htmlFor="email">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500"
+          />
         </div>
         <div className="flex flex-col">
-          <label className="text-lg font-medium" htmlFor="password">Password</label>
-          <input type="password" name="password" id="password" className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500" />
+          <label className="text-lg font-medium" htmlFor="password">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500"
+          />
         </div>
-        <button type="submit" className="px-3 py-2 bg-sky-300 rounded-md">Login</button>
+        <button type="submit" className="px-3 py-2 bg-sky-300 rounded-md">
+          Login
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
