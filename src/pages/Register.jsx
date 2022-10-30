@@ -30,7 +30,7 @@ const Register = () => {
         setError(false);
         navigate("/login");
       } catch (err) {
-        console.log(err)
+        console.log(err);
         setMsg(err.response.message);
         setError(true);
       }
@@ -38,8 +38,9 @@ const Register = () => {
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Register</h1>
+    <div className="rounded-md p-12 bg-cyan-200">
+      <h1 className="text-2xl font-semibold mb-4">Register</h1>
+      {error ? <div>{msg}</div> : null}
       <form
         onSubmit={formik.handleSubmit}
         className="flex flex-col w-fit gap-4"
@@ -54,7 +55,7 @@ const Register = () => {
             id="email"
             onChange={formik.handleChange}
             value={formik.values.email}
-            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500"
+            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-sky-600"
           />
         </div>
         <div className="flex flex-col">
@@ -67,7 +68,7 @@ const Register = () => {
             id="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500"
+            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-sky-600"
           />
         </div>
         <div className="flex flex-col">
@@ -80,10 +81,10 @@ const Register = () => {
             id="confirmPassword"
             onChange={formik.handleChange}
             value={formik.values.confirmPassword}
-            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-blue-600 focus:border-blue-500 focus:border-2 focus:ring-1 focus:ring-blue-500"
+            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-sky-600"
           />
         </div>
-        <button type="submit" className="px-3 py-2 bg-sky-300 rounded-md">
+        <button type="submit" className="px-3 py-2 bg-sky-500 rounded-md">
           Register
         </button>
       </form>
