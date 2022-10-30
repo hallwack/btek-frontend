@@ -10,6 +10,8 @@ import App from "./App";
 import "./index.css";
 import CharacterDetail from "./pages/CharacterDetail";
 import CharacterList from "./pages/CharacterList";
+import Layout from "./pages/Layout";
+import LayoutSidebar from "./pages/LayoutSidebar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -42,12 +44,22 @@ const routerMain = createBrowserRouter([
     element: <CharacterDetail />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/sidebar",
+    element: <LayoutSidebar />,
   },
   {
-    path: "/register",
-    element: <Register />,
+    path: "/auth",
+    element: <Layout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+    ],
   },
 ]);
 
