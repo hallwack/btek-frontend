@@ -1,40 +1,41 @@
 const LayoutSidebar = () => {
   return (
-    <div className="min-h-screen flex">
-      <nav className="w-64 flex flex-col">
-        <div>
-          <div className="py-12 px-8">
-            <p className="text-sky-700 font-bold text-3xl">BTEK</p>
-          </div>
-          <div className="flex flex-col gap-4">
-            <div className="rounded-md px-4 bg-sky-600 py-3 mx-5">Profile</div>
-            <div className="rounded-md px-4 bg-sky-600 py-3 mx-5">Profile</div>
-            <div className="rounded-md px-4 bg-sky-600 py-3 mx-5">Profile</div>
-          </div>
-        </div>
-      </nav>
-      <main className="flex-1 min-w-0 overflow-auto bg-lime-200 p-24">
-        <div className="grid grid-cols-6 gap-4">
-          <div className="bg-pink-200 rounded-md p-4">
-            <p>Raihan Adam</p>
-          </div>
-          <div className="bg-pink-200 rounded-md p-4">
-            <p>Profile</p>
-          </div>
-          <div className="bg-pink-200 rounded-md p-4">
-            <p>Profile</p>
-          </div>
-          <div className="bg-pink-200 rounded-md p-4">
-            <p>Profile</p>
-          </div>
-          <div className="bg-pink-200 rounded-md p-4">
-            <p>Profile</p>
-          </div>
-          <div className="bg-pink-200 rounded-md p-4">
-            <p>Profile</p>
+    <div className="drawer drawer-mobile">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content bg-sky-100 flex flex-col items-center justify-center">
+        <div className="card card-compact w-96 bg-base-100 shadow-xl">
+          <figure>
+            <img src="https://placeimg.com/400/225/arch" alt="Shoes" />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">Shoes!</h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div className="card-actions justify-end">
+              <button className="btn btn-primary">Buy Now</button>
+            </div>
           </div>
         </div>
-      </main>
+        <label
+          htmlFor="my-drawer-2"
+          className="btn btn-primary drawer-button lg:hidden"
+        >
+          Open drawer
+        </label>
+      </div>
+      <div className="drawer-side">
+        <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+        <ul className="menu p-4 overflow-y-auto w-80 bg-primary/30 text-neutral gap-2">
+          <div className="mb-8 ml-4">
+            <h1 className="text-3xl font-bold">BTEK</h1>
+          </div>
+          <li className="hover:bg-primary/50 hover:rounded-lg">
+            <a>Sidebar Item 1</a>
+          </li>
+          <li className="hover:bg-primary/50 hover:rounded-lg">
+            <a>Sidebar Item 2</a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
