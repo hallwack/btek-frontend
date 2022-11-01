@@ -20,7 +20,7 @@ const RequireAuth = ({ children }) => {
   const token = window.localStorage.getItem("token");
 
   if (!token) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/auth/login" state={{ from: location }} />;
   }
 
   return children;
