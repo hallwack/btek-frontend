@@ -38,56 +38,61 @@ const Register = () => {
   });
 
   return (
-    <div className="rounded-md p-12 bg-cyan-200">
-      <h1 className="text-2xl font-semibold mb-4">Register</h1>
-      {error ? <div>{msg}</div> : null}
-      <form
-        onSubmit={formik.handleSubmit}
-        className="flex flex-col w-fit gap-4"
-      >
-        <div className="flex flex-col">
-          <label className="text-lg font-medium" htmlFor="email">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-sky-600"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="text-lg font-medium" htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-sky-600"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="text-lg font-medium" htmlFor="confirmPassword">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            onChange={formik.handleChange}
-            value={formik.values.confirmPassword}
-            className="px-1 py-1.5 rounded-md text-slate-800 border-2 border-sky-600"
-          />
-        </div>
-        <button type="submit" className="px-3 py-2 bg-sky-500 rounded-md">
-          Register
-        </button>
-      </form>
+    <div className="card bg-primary/30 p-8">
+      <div className="card-body">
+        <h1 className="card-title text-2xl mb-4">Register</h1>
+        {error ? <div>{msg}</div> : null}
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col w-fit gap-4"
+        >
+          <div className="form-control">
+            <label className="label" htmlFor="email">
+              <span className="label-text text-lg font-medium">Email</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              className="input !outline-0 border-2 border-accent"
+            />
+          </div>
+          <div className="form-control">
+            <label className="label" htmlFor="password">
+              <span className="label-text text-lg font-medium">Password</span>
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              className="input !outline-0 border-2 border-accent"
+            />
+          </div>
+          <div className="form-control">
+            <label className="label" htmlFor="confirmPassword">
+              <span className="label-text text-lg font-medium">Confirm Password</span>
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              onChange={formik.handleChange}
+              value={formik.values.confirmPassword}
+              className="input !outline-0 border-2 border-accent"
+            />
+          </div>
+          <button type="submit" className="btn btn-accent">
+            Register
+          </button>
+          <button type="submit" className="btn btn-outline btn-accent">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
