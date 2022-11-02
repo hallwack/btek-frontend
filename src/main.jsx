@@ -7,10 +7,13 @@ import {
   useLocation,
 } from "react-router-dom";
 import App from "./App";
+import CardEditProfile from "./components/CardEditProfile";
+import CardProfile from "./components/CardProfile";
 import "./index.css";
+import AuthLayout from "./layouts/AuthLayout";
+import SidebarLayout from "./layouts/SidebarLayout";
 import CharacterDetail from "./pages/CharacterDetail";
 import CharacterList from "./pages/CharacterList";
-import Layout from "./pages/Layout";
 import LayoutSidebar from "./pages/LayoutSidebar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -44,12 +47,8 @@ const routerMain = createBrowserRouter([
     element: <CharacterDetail />,
   },
   {
-    path: "/sidebar",
-    element: <LayoutSidebar />,
-  },
-  {
     path: "/auth",
-    element: <Layout />,
+    element: <AuthLayout />,
     children: [
       {
         path: "login",
@@ -61,10 +60,22 @@ const routerMain = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/admin",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: "profile",
+        element: <CardProfile />,
+      },
+      {
+        path: "profile/:id",
+        element: <CardEditProfile />,
+      },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={routerMain} />
-  </React.StrictMode>
+  <RouterProvider router={routerMain} />
 );
