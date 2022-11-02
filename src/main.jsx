@@ -75,7 +75,7 @@ const routerMain = createBrowserRouter([
         element: <CardProfile />,
       },
       {
-        path: "profile/:id",
+        path: "profile/edit",
         element: <CardEditProfile />,
       },
     ],

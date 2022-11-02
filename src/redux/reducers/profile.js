@@ -8,14 +8,21 @@ const initialState = {
 const profile = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    handleReset: (state) => {
+      state.user = initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(profileAction.getDataUser.fulfilled, (state, action) => {
+      state.user = action.payload.results;
+    });
+    builder.addCase(profileAction.editData.fulfilled, (state, action) => {
       state.user = action.payload.results;
     });
   },
 });
 
-/* export const {} = profile.actions; */
+export const { handleReset } = profile.actions;
 
-export default profile;
+export default profile.reducer;

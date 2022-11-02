@@ -1,35 +1,44 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+
+import * as profileAction from "../redux/asyncActions/profile";
 
 const CardEditProfile = () => {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userProfile = useSelector((state) => state.profile.user);
+
+  const [image, setImage] = useState();
 
   const editProfileSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name Required"),
-    birthDate: Yup.string().required("Full Name Required"),
-    picture: Yup.mixed().required(),
+    birthDate: Yup.string().required("Birth Date Required"),
+    picture: Yup.mixed().nullable(),
   });
 
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      birthDate: "",
-      picture: "",
+      fullName: userProfile?.fullName,
+      birthDate: userProfile?.birthDate,
+      picture: null,
     },
     validationSchema: editProfileSchema,
     onSubmit: async (values) => {
       try {
-        const form = {
+        const data = {
           fullName: values.fullName,
           birthDate: values.birthDate,
-          picture: values.picture,
+          picture: image,
         };
 
-        console.log(form);
+        const token = window.localStorage.getItem("token");
+        dispatch(profileAction.editData({ token, data }));
+        navigate("/profile");
       } catch (err) {
         console.log(err);
         setMsg(err.response.message);
@@ -37,6 +46,17 @@ const CardEditProfile = () => {
       }
     },
   });
+
+  const handlePictureChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (!userProfile?.fullName) {
+      dispatch(profileAction.getDataUser({ token }));
+    }
+  }, []);
 
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
@@ -52,10 +72,10 @@ const CardEditProfile = () => {
             </label>
             <input
               type="file"
+              accept="image/*"
               name="picture"
               id="picture"
-              onChange={formik.handleChange}
-              value={formik.values.picture}
+              onChange={handlePictureChange}
               className={`file-input ${
                 formik.errors.picture
                   ? "file-input-error border-error"

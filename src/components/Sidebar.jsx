@@ -1,8 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import * as profileActions from "../redux/reducers/profile";
+import { useDispatch } from "react-redux";
 
 const Sidebar = ({ children }) => {
+  const dispatch = useDispatch();
+  const handleDeleteToken = () => {
+    window.localStorage.removeItem("token");
+    dispatch(profileActions.handleReset());
+  };
+
   return (
     <div className="drawer">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -25,7 +33,9 @@ const Sidebar = ({ children }) => {
             <Link to="/profile/">Profile</Link>
           </li>
           <li className="hover:bg-primary/50 hover:rounded-lg">
-            <a>Logout</a>
+            <Link to="/auth/login" onClick={handleDeleteToken}>
+              Logout
+            </Link>
           </li>
         </ul>
       </div>
