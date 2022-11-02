@@ -4,7 +4,7 @@ const http = (token) => {
   const headers = {}
 
   if (token) {
-    headers.auhorization = `Bearer ${token}`
+    headers.authorization = `Bearer ${token}`
   }
 
   return axios.create({
