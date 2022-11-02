@@ -14,7 +14,6 @@ import AuthLayout from "./layouts/AuthLayout";
 import SidebarLayout from "./layouts/SidebarLayout";
 import CharacterDetail from "./pages/CharacterDetail";
 import CharacterList from "./pages/CharacterList";
-import LayoutSidebar from "./pages/LayoutSidebar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -64,6 +63,7 @@ const routerMain = createBrowserRouter([
     path: "/admin",
     element: <SidebarLayout />,
     children: [
+      { path: "" },
       {
         path: "profile",
         element: <CardProfile />,
