@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import {
   createBrowserRouter,
   Navigate,
@@ -16,6 +17,7 @@ import CharacterDetail from "./pages/CharacterDetail";
 import CharacterList from "./pages/CharacterList";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { store } from "./redux/store";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
@@ -29,14 +31,14 @@ const RequireAuth = ({ children }) => {
 };
 
 const routerMain = createBrowserRouter([
-  {
+  /* {
     path: "/",
     element: (
       <RequireAuth>
         <App />
       </RequireAuth>
     ),
-  },
+  }, */
   {
     path: "/characters",
     element: <CharacterList />,
@@ -60,8 +62,12 @@ const routerMain = createBrowserRouter([
     ],
   },
   {
-    path: "/admin",
-    element: <SidebarLayout />,
+    path: "/",
+    element: (
+      <RequireAuth>
+        <SidebarLayout />
+      </RequireAuth>
+    ),
     children: [
       { path: "" },
       {
@@ -77,5 +83,7 @@ const routerMain = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={routerMain} />
+  <Provider store={store}>
+    <RouterProvider router={routerMain} />
+  </Provider>
 );

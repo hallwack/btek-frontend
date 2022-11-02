@@ -19,10 +19,10 @@ const Sidebar = ({ children }) => {
             <h1 className="text-3xl font-bold">BTEK</h1>
           </div>
           <li className="hover:bg-primary/50 hover:rounded-lg">
-            <Link to="/admin/">Dashboard</Link>
+            <Link to="/">Dashboard</Link>
           </li>
           <li className="hover:bg-primary/50 hover:rounded-lg">
-            <Link to="/admin/profile/">Profile</Link>
+            <Link to="/profile/">Profile</Link>
           </li>
           <li className="hover:bg-primary/50 hover:rounded-lg">
             <a>Logout</a>
