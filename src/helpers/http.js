@@ -1,7 +1,4 @@
 import axios from "axios"
-import dotenv from "dotenv"
-
-dotenv.config()
 
 const http = (token) => {
   const headers = {}
@@ -11,7 +8,7 @@ const http = (token) => {
   }
 
   return axios.create({
-    baseURL: process.env.BASE_URL || "https://btek-backend.vercel.app/",
+    baseURL: import.meta.env.BASE_URL || "https://btek-backend.vercel.app/",
     headers
   })
 }
