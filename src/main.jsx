@@ -15,6 +15,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import SidebarLayout from "./layouts/SidebarLayout";
 import CharacterDetail from "./pages/CharacterDetail";
 import CharacterList from "./pages/CharacterList";
+import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { store } from "./redux/store";
@@ -58,6 +59,10 @@ const routerMain = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
       },
     ],
   },
