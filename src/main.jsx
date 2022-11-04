@@ -10,6 +10,7 @@ import {
 import App from "./App";
 import CardEditProfile from "./components/CardEditProfile";
 import CardProfile from "./components/CardProfile";
+import LoadingCard from "./components/LoadingCard";
 import "./index.css";
 import AuthLayout from "./layouts/AuthLayout";
 import SidebarLayout from "./layouts/SidebarLayout";
@@ -47,6 +48,10 @@ const routerMain = createBrowserRouter([
   {
     path: "/characters/:id",
     element: <CharacterDetail />,
+  },
+  {
+    path: "/loading",
+    element: <LoadingCard />,
   },
   {
     path: "/auth",
