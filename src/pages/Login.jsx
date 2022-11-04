@@ -1,13 +1,18 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import http from "../helpers/http";
+
+import * as authAction from "../redux/asyncActions/auth";
 
 const Login = () => {
   const navigate = useNavigate();
   const [msg, setMsg] = useState("");
   const [error, setError] = useState(false);
+
+  const dispatch = useDispatch();
 
   const loginValidation = Yup.object().shape({
     email: Yup.string()
@@ -30,15 +35,17 @@ const Login = () => {
     validationSchema: loginValidation,
     onSubmit: async (values, action) => {
       try {
-        const form = {
+        const formValue = {
           email: values.email,
           password: values.password,
         };
 
-        console.log(form);
-        const encoded = new URLSearchParams(form);
-        const { data } = await http().post("/auth/login", encoded.toString());
+        console.log(formValue);
+        const form = new URLSearchParams(formValue);
+        const { data } = await http().post("/auth/login", form.toString());
         window.localStorage.setItem("token", data.results.token);
+
+        dispatch(authAction.getToken({ form }));
         setError(false);
         action.setSubmitting(true);
         navigate("/");
@@ -87,9 +94,15 @@ const Login = () => {
           <button type="submit" className="btn btn-accent">
             Login
           </button>
-          <button type="submit" className="btn btn-outline btn-accent">
+          <Link to="/auth/register" className="btn btn-outline btn-accent">
             Register
-          </button>
+          </Link>
+          <Link
+            to="/auth/forgot-password"
+            className="btn btn-outline btn-accent"
+          >
+            Forgot Password
+          </Link>
         </form>
       </div>
     </div>
