@@ -15,7 +15,7 @@ const CardProfile = () => {
     if (!userProfile?.fullName) {
       dispatch(profileAction.getDataUser({ token }));
     }
-    if (userProfile?.fullName == null || userProfile?.birthDate == null) {
+    if (userProfile?.fullName === null) {
       navigate("/profile/edit");
     }
   }, []);
