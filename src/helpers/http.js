@@ -11,7 +11,7 @@ const http = (token) => {
   }
 
   return axios.create({
-    baseURL: process.env.BASE_URL || "http://localhost:8888",
+    baseURL: process.env.BASE_URL || "https://btek-backend.vercel.app/",
     headers
   })
 }
