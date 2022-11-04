@@ -1,4 +1,7 @@
 import axios from "axios"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const http = (token) => {
   const headers = {}
@@ -8,7 +11,7 @@ const http = (token) => {
   }
 
   return axios.create({
-    baseURL: "http://localhost:8888",
+    baseURL: process.env.BASE_URL || "http://localhost:8888",
     headers
   })
 }
