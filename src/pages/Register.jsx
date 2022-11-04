@@ -1,19 +1,33 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import http from "../helpers/http";
+import * as Yup from "yup"
 
 const Register = () => {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
+  const registerValidation = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email Required"),
+    password: Yup.string()
+      .required("Password Required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Password must be including 1 symbol, 1 uppercase, and 1 number"
+      )
+      .min(8, "Password must be at least 8 characters or more"),
+  });
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
+    validationSchema: registerValidation,
     onSubmit: async (values) => {
       try {
         const form = {
@@ -23,12 +37,12 @@ const Register = () => {
 
         console.log(form);
         const encoded = new URLSearchParams(form);
-        const { data } = await http().post(
+        await http().post(
           "/auth/register",
           encoded.toString()
         );
         setError(false);
-        navigate("/login");
+        navigate("/auth/login");
       } catch (err) {
         console.log(err);
         setMsg(err.response.message);
@@ -58,6 +72,13 @@ const Register = () => {
               value={formik.values.email}
               className="input !outline-0 border-2 border-accent"
             />
+            {formik.errors.email ? (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {formik.errors.email}
+                </span>
+              </label>
+            ) : null}
           </div>
           <div className="form-control">
             <label className="label" htmlFor="password">
@@ -71,26 +92,20 @@ const Register = () => {
               value={formik.values.password}
               className="input !outline-0 border-2 border-accent"
             />
-          </div>
-          <div className="form-control">
-            <label className="label" htmlFor="confirmPassword">
-              <span className="label-text text-lg font-medium">Confirm Password</span>
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              onChange={formik.handleChange}
-              value={formik.values.confirmPassword}
-              className="input !outline-0 border-2 border-accent"
-            />
+            {formik.errors.password ? (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {formik.errors.password}
+                </span>
+              </label>
+            ) : null}
           </div>
           <button type="submit" className="btn btn-accent">
             Register
           </button>
-          <button type="submit" className="btn btn-outline btn-accent">
+          <Link to="/auth/login" className="btn btn-outline btn-accent">
             Login
-          </button>
+          </Link>
         </form>
       </div>
     </div>

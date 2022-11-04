@@ -8,7 +8,7 @@ const http = (token) => {
   }
 
   return axios.create({
-    baseURL: import.meta.env.BASE_URL || "https://btek-backend.vercel.app/",
+    baseURL: "https://btek-backend.vercel.app/",
     headers
   })
 }
