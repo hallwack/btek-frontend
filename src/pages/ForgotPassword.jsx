@@ -1,43 +1,42 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import http from "../helpers/http";
+
+import * as authAction from "../redux/asyncActions/auth";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [msg, setMsg] = useState("");
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
 
-  const loginValidation = Yup.object().shape({
+  const forgotPasswordValidation = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email Required"),
-    code: Yup.string().required("Code Required"),
-    newPassword: Yup.string(),
-    confirmPassword: Yup.string(),
   });
 
   const formik = useFormik({
     initialValues: {
       email: "",
     },
-    validationSchema: loginValidation,
+    validationSchema: forgotPasswordValidation,
     onSubmit: async (values, action) => {
       try {
-        const form = {
+        const formValue = {
           email: values.email,
         };
 
-        console.log(form);
-        const encoded = new URLSearchParams(form);
-        const { data } = await http().post(
-          "/auth/forgot-password",
-          encoded.toString()
-        );
+        console.log(formValue);
+        const form = new URLSearchParams(formValue);
+
+        dispatch(authAction.forgotPassword({ form }));
+
         setError(false);
         action.setSubmitting(true);
-        navigate("/");
+        navigate("/auth/reset-password");
       } catch (err) {
         setMsg(err.response.data.message);
         setError(true);
