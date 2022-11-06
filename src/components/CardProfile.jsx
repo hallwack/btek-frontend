@@ -5,6 +5,7 @@ import * as profileAction from "../redux/asyncActions/profile";
 import avatar from "../assets/images/avatar-default.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingCard from "./LoadingCard";
+import { Cloudinary } from "@cloudinary/url-gen";
 
 const CardProfile = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,14 @@ const CardProfile = () => {
   const loadingState = useSelector((state) => state.profile.isLoading);
   const token = useSelector((state) => state.profile.token);
   const navigate = useNavigate();
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: "dl4deuzwk"
+    }
+  })
+
+  const myImage = cld.image(userProfile?.picture)
 
   useEffect(() => {
     if (!userProfile?.fullName) {
@@ -25,7 +34,7 @@ const CardProfile = () => {
         <img
           src={
             userProfile?.picture
-              ? `http://localhost:8888/assets/upload/${userProfile?.picture}`
+              ? myImage.toURL()
               : avatar
           }
           alt="Shoes"
